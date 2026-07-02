@@ -23,6 +23,7 @@ const deliveryLink = document.querySelector("#deliveryLink");
 const bumpsFieldset = document.querySelector("#bumpsFieldset");
 const bumpsEl = document.querySelector("#bumps");
 let paymentPollTimer = null;
+let checkoutStatusTimer = null;
 
 init();
 
@@ -117,19 +118,24 @@ form.addEventListener("submit", async (event) => {
   }
 
   payButton.disabled = true;
-  payButton.textContent = "Reservando acesso...";
+  payButton.textContent = "Gerando Pix...";
   showStatus("Criando seu Pix seguro...", false);
+  scheduleCheckoutStatusMessages();
 
   const data = Object.fromEntries(new FormData(form).entries());
   Object.assign(data, generateBackendCustomer());
   data.bumpIds = Array.from(state.selected);
   data.tracking = Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 22000);
+
   try {
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: controller.signal
     });
     const result = await response.json();
     resultEl.classList.remove("hidden");
@@ -173,8 +179,10 @@ form.addEventListener("submit", async (event) => {
     });
   } catch {
     resultEl.classList.remove("hidden");
-    showStatus("Não foi possível criar o Pix agora. Recarregue a página e tente novamente.", true);
+    showStatus("A geração do Pix demorou mais que o normal. Tente novamente em alguns segundos.", true);
   } finally {
+    clearTimeout(timeout);
+    clearCheckoutStatusMessages();
     payButton.disabled = false;
     payButton.textContent = "Gerar meu Pix e reservar acesso";
   }
@@ -204,6 +212,21 @@ function showStatus(message, isError) {
   if (resultTitle) resultTitle.textContent = isError ? "Não foi possível gerar o Pix" : "Seu Pix foi gerado";
   statusEl.textContent = message;
   statusEl.classList.toggle("is-error", Boolean(isError));
+}
+
+function scheduleCheckoutStatusMessages() {
+  clearCheckoutStatusMessages();
+  checkoutStatusTimer = setTimeout(() => {
+    showStatus("Estamos conectando com o banco para gerar seu Pix...", false);
+    checkoutStatusTimer = setTimeout(() => {
+      showStatus("Quase pronto. A Paradise está retornando os dados do Pix...", false);
+    }, 7000);
+  }, 4500);
+}
+
+function clearCheckoutStatusMessages() {
+  clearTimeout(checkoutStatusTimer);
+  checkoutStatusTimer = null;
 }
 
 function track(type, event, label = "") {

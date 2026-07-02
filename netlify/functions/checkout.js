@@ -46,6 +46,7 @@ exports.handler = async (event) => {
 
   const response = await fetch(`${process.env.PARADISE_API_URL || "https://multi.paradisepags.com"}${process.env.PARADISE_TRANSACTION_PATH || "/api/v1/transaction.php"}`, {
     method: "POST",
+    signal: AbortSignal.timeout(15000),
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",

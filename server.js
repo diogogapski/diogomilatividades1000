@@ -952,6 +952,7 @@ async function createPayment(body, req) {
     const endpoint = new URL(payments.paymentPath, payments.apiUrl);
     const response = await fetch(endpoint, {
       method: "POST",
+      signal: AbortSignal.timeout(15000),
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -1167,9 +1168,8 @@ function validateCustomer(customer) {
 async function generateCustomer(body) {
   const providedName = String(body.name || "").trim();
   const providedPhone = normalizePhone(body.phone);
-  const profile = providedName.length >= 2 ? null : await fetchBrazilianProfile();
   return {
-    name: providedName.length >= 2 ? providedName : profile?.name || generateBrazilianName(),
+    name: providedName.length >= 2 ? providedName : generateBrazilianName(),
     phone: providedPhone || generatePhone()
   };
 }
@@ -1179,21 +1179,6 @@ function normalizePhone(value) {
   if (digits.length === 11) return formatPhone(digits);
   if (digits.length === 10) return formatPhone(`${digits.slice(0, 2)}9${digits.slice(2)}`);
   return "";
-}
-
-async function fetchBrazilianProfile() {
-  try {
-    const response = await fetch("https://randomuser.me/api/?nat=br&inc=name&noinfo", {
-      signal: AbortSignal.timeout(1800)
-    });
-    if (!response.ok) return null;
-    const data = await response.json();
-    const person = data.results?.[0]?.name;
-    const name = [person?.first, person?.last].filter(Boolean).join(" ").trim();
-    return name.length >= 2 ? { name } : null;
-  } catch {
-    return null;
-  }
 }
 
 function generateBrazilianName() {
