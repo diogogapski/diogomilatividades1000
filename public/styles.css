@@ -419,7 +419,6 @@ p {
 }
 
 .audience-grid,
-.how-grid,
 .proof-grid {
   display: grid;
   gap: 16px;
@@ -429,8 +428,7 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.audience-grid article,
-.how-grid article {
+.audience-grid article {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fff;
@@ -691,32 +689,166 @@ p {
 }
 
 .how-section {
-  background: #f9fbf7;
+  position: relative;
+  overflow: hidden;
+  background: #6126d9;
+  color: #fff;
 }
 
-.how-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.how-section::before,
+.how-section::after {
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 26px;
+  background: #fff;
+  content: "";
 }
 
-.how-grid article {
-  padding: 24px;
+.how-section::before {
+  top: 0;
+  clip-path: polygon(0 0, 49% 0, 50% 100%, 51% 0, 100% 0, 100% 100%, 0 100%);
 }
 
-.how-grid span {
-  width: 42px;
-  height: 42px;
+.how-section::after {
+  bottom: 0;
+  clip-path: polygon(0 0, 49% 0, 50% 100%, 51% 0, 100% 0, 100% 100%, 0 100%);
+  transform: rotate(180deg);
+}
+
+.how-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.96fr) minmax(320px, 1fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: center;
+  min-height: 720px;
+  padding-top: 54px;
+  padding-bottom: 54px;
+}
+
+.how-visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 600px;
+  margin: 0;
+}
+
+.how-visual::after {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  width: min(520px, 88%);
+  height: 16px;
+  background: rgba(26, 64, 96, 0.86);
+  transform: translateX(-50%);
+  content: "";
+}
+
+.how-visual img {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  max-height: 640px;
+  object-fit: contain;
+}
+
+.how-copy {
+  max-width: 580px;
+}
+
+.how-copy h2 {
+  margin-bottom: 32px;
+  color: #fff;
+  text-align: center;
+}
+
+.how-steps {
+  display: grid;
+  gap: 22px;
+}
+
+.how-step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.how-step-icon {
   display: grid;
   place-items: center;
-  margin-bottom: 16px;
-  border-radius: var(--radius);
-  background: var(--coral);
-  color: #fff;
-  font-weight: 900;
+  width: 50px;
+  height: 50px;
 }
 
-.how-grid p {
+.how-step-icon svg {
+  width: 42px;
+  height: 42px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.7;
+}
+
+.how-step-icon-mail {
+  color: #ffd629;
+}
+
+.how-step-icon-print {
+  color: #ef351f;
+}
+
+.how-step-icon-practice {
+  color: #8ed116;
+}
+
+.how-step h3 {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: clamp(1.05rem, 2vw, 1.32rem);
+  text-align: center;
+}
+
+.how-step p {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1.03rem;
+  line-height: 1.7;
+}
+
+.how-step p:last-child {
   margin-bottom: 0;
-  color: var(--muted);
+}
+
+.how-security {
+  display: block;
+  width: min(330px, 78%);
+  margin: 28px auto 26px;
+}
+
+.how-button {
+  display: flex;
+  width: min(520px, 100%);
+  min-height: 68px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding-right: 28px;
+  padding-left: 28px;
+  background: #8ac915;
+  color: #fff;
+  box-shadow: 0 18px 34px rgba(22, 34, 18, 0.22);
+  text-align: center;
+}
+
+.how-button:hover {
+  background: #7dbb10;
 }
 
 .social-proof-section {
@@ -1697,10 +1829,28 @@ p {
   .method-grid,
   .bonus-grid,
   .audience-grid,
-  .how-grid,
   .proof-video-grid,
   .proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .how-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    text-align: center;
+  }
+
+  .how-visual {
+    min-height: auto;
+  }
+
+  .how-visual img {
+    max-height: 520px;
+  }
+
+  .how-copy {
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .price-card {
@@ -1811,10 +1961,61 @@ p {
   .method-grid,
   .bonus-grid,
   .audience-grid,
-  .how-grid,
   .proof-video-grid,
   .proof-grid {
     grid-template-columns: 1fr;
+  }
+
+  .how-section::before,
+  .how-section::after {
+    height: 18px;
+  }
+
+  .how-layout {
+    gap: 22px;
+    padding-top: 28px;
+    padding-bottom: 34px;
+  }
+
+  .how-visual img {
+    max-height: 430px;
+  }
+
+  .how-visual::after {
+    bottom: 22px;
+    height: 10px;
+  }
+
+  .how-copy h2 {
+    margin-bottom: 22px;
+  }
+
+  .how-step {
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .how-step h3 {
+    text-align: left;
+  }
+
+  .how-step-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .how-step-icon svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .how-step p {
+    font-size: 0.98rem;
+  }
+
+  .how-security {
+    width: min(300px, 92%);
   }
 
   .image-frame,
