@@ -581,6 +581,42 @@ p {
   aspect-ratio: 16 / 10;
 }
 
+.relief-photo-frame {
+  position: relative;
+  border-width: 10px;
+  box-shadow:
+    0 26px 54px rgba(35, 48, 65, 0.2),
+    0 18px 0 rgba(99, 39, 214, 0.14);
+}
+
+.relief-photo-frame::before,
+.relief-photo-frame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+}
+
+.relief-photo-frame::before {
+  background:
+    linear-gradient(90deg, rgba(20, 30, 42, 0.22), transparent 16%, transparent 84%, rgba(20, 30, 42, 0.2)),
+    linear-gradient(180deg, transparent 66%, rgba(97, 38, 217, 0.28));
+}
+
+.relief-photo-frame::after {
+  inset: auto 7% 0;
+  height: 18%;
+  border-radius: 999px 999px 0 0;
+  background: radial-gradient(ellipse at center, rgba(97, 38, 217, 0.2), transparent 72%);
+  filter: blur(12px);
+}
+
+.relief-photo-frame img {
+  aspect-ratio: 9 / 14;
+  object-position: center top;
+}
+
 .activity-marquee {
   position: relative;
   width: 100%;
