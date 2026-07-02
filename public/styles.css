@@ -508,29 +508,6 @@ p {
   color: var(--muted);
 }
 
-.catalog-section {
-  background: #fff;
-}
-
-.catalog-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.catalog-grid span {
-  min-height: 58px;
-  display: grid;
-  place-items: center;
-  padding: 12px;
-  border: 1px solid rgba(15, 159, 154, 0.18);
-  border-radius: var(--radius);
-  background: #f6fbff;
-  color: #344054;
-  font-weight: 900;
-  text-align: center;
-}
-
 .preview-section {
   overflow: hidden;
   background:
@@ -780,8 +757,7 @@ p {
   margin: 0 auto;
 }
 
-.proof-grid figure,
-.proof-extra-grid figure {
+.proof-grid figure {
   margin: 0;
   overflow: hidden;
   border: 6px solid #fff;
@@ -793,21 +769,6 @@ p {
 .proof-grid img {
   width: 100%;
   aspect-ratio: 9 / 16;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.proof-extra-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  max-width: 1080px;
-  margin: 24px auto 0;
-}
-
-.proof-extra-grid img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: top center;
 }
@@ -1672,15 +1633,10 @@ p {
   .method-grid,
   .bonus-grid,
   .audience-grid,
-  .catalog-grid,
   .how-grid,
   .proof-video-grid,
   .proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .proof-extra-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .price-card {
@@ -1791,10 +1747,8 @@ p {
   .method-grid,
   .bonus-grid,
   .audience-grid,
-  .catalog-grid,
   .how-grid,
   .proof-video-grid,
-  .proof-extra-grid,
   .proof-grid {
     grid-template-columns: 1fr;
   }
