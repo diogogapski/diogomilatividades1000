@@ -1,0 +1,14 @@
+{
+  "name": "atividades-bncc-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "vercel-build": "node --check server.js && node --check public/checkout.js",
+    "netlify-build": "node --check server.js && node --check public/checkout.js && node --check public/obrigado.js && node --check netlify/functions/api.js && node --check netlify/functions/checkout.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.4.1",
+    "qrcode": "^1.5.4"
+  }
+}

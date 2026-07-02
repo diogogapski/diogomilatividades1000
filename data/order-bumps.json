@@ -1,0 +1,62 @@
+[
+  {
+    "id": "producao-texto-320",
+    "hash": "producao-texto-320",
+    "title": "320 Atividades de Produção de Texto",
+    "gatewayTitle": "320 Atividades de Produção de Texto",
+    "description": "Do básico ao avançado. Material completo e sem perder tempo planejando.",
+    "image": "/assets/order-bumps/producao-texto.svg",
+    "price": 5.9,
+    "compareAtPrice": 35.9,
+    "enabled": true,
+    "highlight": true
+  },
+  {
+    "id": "generos-textuais-850",
+    "hash": "generos-textuais-850",
+    "title": "850 Atividades de Gêneros Textuais",
+    "gatewayTitle": "850 Atividades de Gêneros Textuais",
+    "description": "Atividades prontas para desenvolver leitura, interpretação e produção textual.",
+    "image": "/assets/order-bumps/generos-textuais.svg",
+    "price": 7.9,
+    "compareAtPrice": 109.9,
+    "enabled": true,
+    "highlight": false
+  },
+  {
+    "id": "verbos-200",
+    "hash": "verbos-200",
+    "title": "+200 Atividades de Verbos",
+    "gatewayTitle": "+200 Atividades de Verbos",
+    "description": "Cruzadinhas, caça-palavras, textos animados e atividades lúdicas sobre verbos.",
+    "image": "/assets/order-bumps/verbos.svg",
+    "price": 5.9,
+    "compareAtPrice": 27.9,
+    "enabled": true,
+    "highlight": false
+  },
+  {
+    "id": "numerais",
+    "hash": "numerais",
+    "title": "Atividades sobre Numerais",
+    "gatewayTitle": "Atividades sobre Numerais",
+    "description": "Mais de 400 atividades de numerais prontas para imprimir e aplicar.",
+    "image": "/assets/order-bumps/numerais.svg",
+    "price": 5.9,
+    "compareAtPrice": 27.9,
+    "enabled": true,
+    "highlight": false
+  },
+  {
+    "id": "silabas-complexas-150",
+    "hash": "silabas-complexas-150",
+    "title": "+150 Atividades de Sílabas Complexas",
+    "gatewayTitle": "+150 Atividades de Sílabas Complexas",
+    "description": "Caderno de atividades prontas para imprimir com sílabas complexas.",
+    "image": "/assets/order-bumps/silabas-complexas.svg",
+    "price": 6.9,
+    "compareAtPrice": 37.9,
+    "enabled": true,
+    "highlight": false
+  }
+]

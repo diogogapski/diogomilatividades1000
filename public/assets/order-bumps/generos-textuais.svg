@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-labelledby="title">
+  <title id="title">850 Atividades de Generos Textuais</title>
+  <rect width="420" height="420" rx="44" fill="#f8e8ff"/>
+  <circle cx="70" cy="75" r="38" fill="#ffd257"/>
+  <circle cx="354" cy="333" r="44" fill="#58c7f3"/>
+  <rect x="72" y="62" width="276" height="300" rx="26" fill="#fff" stroke="#24324a" stroke-width="6"/>
+  <path d="M92 118h236v48H92z" fill="#ff6f61"/>
+  <text x="210" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="900" fill="#fff">850 ATIVIDADES</text>
+  <text x="210" y="209" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="900" fill="#24324a">GENEROS</text>
+  <text x="210" y="246" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="900" fill="#24324a">TEXTUAIS</text>
+  <rect x="114" y="282" width="58" height="45" rx="10" fill="#0f9f9a"/>
+  <rect x="184" y="282" width="58" height="45" rx="10" fill="#ffd257"/>
+  <rect x="254" y="282" width="58" height="45" rx="10" fill="#7bd88f"/>
+  <text x="143" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="900" fill="#fff">F</text>
+  <text x="213" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="900" fill="#24324a">C</text>
+  <text x="283" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="900" fill="#fff">H</text>
+</svg>

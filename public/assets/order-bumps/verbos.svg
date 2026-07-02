@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-labelledby="title">
+  <title id="title">+200 Atividades de Verbos</title>
+  <rect width="420" height="420" rx="44" fill="#e8fff2"/>
+  <path d="M0 310c95-50 156-10 238-42 76-30 95-86 182-52v204H0z" fill="#b9e7ff"/>
+  <rect x="74" y="54" width="272" height="310" rx="26" fill="#fff" stroke="#24324a" stroke-width="6"/>
+  <rect x="104" y="84" width="212" height="54" rx="18" fill="#7bd88f"/>
+  <text x="210" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="900" fill="#24324a">+200 ATIVIDADES</text>
+  <text x="210" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="#24324a">VERBOS</text>
+  <circle cx="132" cy="279" r="24" fill="#ffd257" stroke="#24324a" stroke-width="5"/>
+  <path d="M126 277h12v48h-12zM111 302h42" stroke="#24324a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="210" cy="279" r="24" fill="#ff6f61" stroke="#24324a" stroke-width="5"/>
+  <path d="M210 304l-22 26M210 304l22 26" stroke="#24324a" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="288" cy="279" r="24" fill="#58c7f3" stroke="#24324a" stroke-width="5"/>
+  <path d="M269 272l-28-18M307 272l28-18" stroke="#24324a" stroke-width="8" stroke-linecap="round"/>
+</svg>

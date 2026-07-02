@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "{server.js,public/**,data/**,delivery/**}",
+      "maxDuration": 30,
+      "regions": ["gru1"]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "product": {
+    "id": "1000-atividades-leitura-ortografia-bncc",
+    "title": "1000 Atividades de Leitura e Ortografia - BNCC",
+    "gatewayTitle": "1000 Atividades BNCC",
+    "subtitle": "PDF para imprimir + gabarito completo + 4 bônus.",
+    "price": 17.9
+  },
+  "payments": {
+    "mode": "live",
+    "publicKey": "",
+    "secretKey": "",
+    "apiUrl": "https://multi.paradisepags.com",
+    "paymentPath": "/api/v1/transaction.php",
+    "postbackUrl": ""
+  }
+}

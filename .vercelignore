@@ -1,0 +1,9 @@
+.env
+.env.*
+.vercel
+.git
+node_modules
+*.log
+data/orders.json
+data/analytics.json
+OFERTAPEDAGOGICA

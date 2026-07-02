@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-labelledby="title">
+  <title id="title">320 Atividades de Producao de Texto</title>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#66d9ff"/>
+      <stop offset="1" stop-color="#ffcf4d"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="420" rx="44" fill="url(#bg)"/>
+  <circle cx="60" cy="65" r="36" fill="#fff" opacity=".5"/>
+  <circle cx="350" cy="75" r="30" fill="#ff6f61" opacity=".75"/>
+  <rect x="86" y="54" width="250" height="312" rx="24" fill="#fff" stroke="#24324a" stroke-width="6"/>
+  <rect x="112" y="90" width="198" height="48" rx="16" fill="#0f9f9a"/>
+  <text x="211" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="#fff">320 ATIVIDADES</text>
+  <text x="210" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="31" font-weight="900" fill="#24324a">PRODUCAO</text>
+  <text x="210" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="31" font-weight="900" fill="#24324a">DE TEXTO</text>
+  <rect x="126" y="252" width="168" height="18" rx="9" fill="#ffd257"/>
+  <rect x="126" y="282" width="118" height="18" rx="9" fill="#b9e7ff"/>
+  <path d="M307 289l35 12-25 25-18-10z" fill="#ff6f61" stroke="#24324a" stroke-width="4"/>
+  <path d="M296 320l21 6-16 17z" fill="#ffd257" stroke="#24324a" stroke-width="4"/>
+  <text x="73" y="348" font-size="52" font-family="Arial, sans-serif" font-weight="900" fill="#fff">A</text>
+</svg>

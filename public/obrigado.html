@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Liberação dos PDFs</title>
+    <meta name="description" content="Acompanhe a confirmação do pagamento e baixe seus materiais." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1050652417300827');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+    <script src="/obrigado.js" defer></script>
+  </head>
+  <body class="delivery-page">
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1050652417300827&ev=PageView&noscript=1" alt="" /></noscript>
+    <main class="delivery-shell">
+      <section class="delivery-card" aria-labelledby="deliveryTitle">
+        <p class="eyebrow">compra segura</p>
+        <h1 id="deliveryTitle">Seus PDFs serão liberados aqui</h1>
+        <p id="deliveryMessage">Estamos aguardando a confirmação do pagamento. Assim que o Pix for aprovado, os botões de download aparecem automaticamente.</p>
+
+        <div id="deliveryStatus" class="delivery-status" role="status">Verificando pagamento...</div>
+
+        <div id="downloadList" class="download-list hidden" aria-label="Materiais liberados"></div>
+
+        <a class="delivery-back" href="/checkout">Voltar para o checkout</a>
+      </section>
+    </main>
+  </body>
+</html>
