@@ -583,6 +583,8 @@ p {
 
 .relief-photo-frame {
   position: relative;
+  width: min(360px, 100%);
+  margin: 0 auto;
   border-width: 10px;
   box-shadow:
     0 26px 54px rgba(35, 48, 65, 0.2),
