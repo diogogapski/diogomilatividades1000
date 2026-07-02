@@ -232,6 +232,32 @@ p {
   width: 100%;
 }
 
+.security-seal {
+  display: block;
+  height: auto;
+}
+
+.security-seal-hero {
+  width: min(430px, 100%);
+  margin-top: 16px;
+}
+
+.security-seal-card {
+  width: min(260px, 100%);
+  margin: 16px auto 0;
+}
+
+.security-seal-wide,
+.security-seal-final {
+  width: min(620px, 100%);
+  margin: 22px auto 0;
+}
+
+.security-seal-proof {
+  width: min(760px, 100%);
+  margin: 30px auto 0;
+}
+
 .trust-row {
   display: flex;
   flex-wrap: wrap;
@@ -1300,6 +1326,23 @@ p {
   font-weight: 700;
 }
 
+.checkout-security-seal,
+.checkout-site-seal {
+  display: block;
+  height: auto;
+  margin-inline: auto;
+}
+
+.checkout-security-seal {
+  width: min(420px, 100%);
+  margin-top: 14px;
+}
+
+.checkout-site-seal {
+  width: min(300px, 100%);
+  margin-top: 12px;
+}
+
 .delivery-page {
   min-height: 100vh;
   background:
@@ -1616,6 +1659,13 @@ p {
   .hero-actions {
     display: grid;
     gap: 10px;
+  }
+
+  .security-seal-hero,
+  .security-seal-final,
+  .security-seal-wide,
+  .checkout-security-seal {
+    width: 100%;
   }
 
   .button {
