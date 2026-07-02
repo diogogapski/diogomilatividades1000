@@ -154,7 +154,7 @@ form.addEventListener("submit", async (event) => {
     if (image) qrImage.src = image;
     if (result.orderId) {
       deliveryLink.href = `/obrigado?orderId=${encodeURIComponent(result.orderId)}`;
-      deliveryLink.classList.remove("hidden");
+      deliveryLink.classList.add("hidden");
       startPaymentApprovalPolling(result.orderId);
     }
     resultEl.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -248,6 +248,8 @@ function startPaymentApprovalPolling(orderId) {
       if (result.ok && result.approved) {
         clearTimeout(paymentPollTimer);
         showStatus("Pagamento confirmado. Seu acesso ja esta liberado.", false);
+        deliveryLink.href = `/obrigado?orderId=${encodeURIComponent(orderId)}`;
+        deliveryLink.classList.remove("hidden");
         trackMetaPurchase(result);
         return;
       }

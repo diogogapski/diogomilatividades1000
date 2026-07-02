@@ -1004,7 +1004,7 @@ async function createPayment(body, req) {
         amount: result.amount,
         amountCents: Math.round(result.amount * 100),
         reference,
-        status: normalizeStatus(providerData.status || data.status || "pending")
+        status: "pending"
       });
     }
     return result;
