@@ -680,7 +680,8 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .activity-marquee-track {
+  .activity-marquee-track,
+  .buyer-carousel-track {
     animation-play-state: paused;
   }
 }
@@ -748,6 +749,69 @@ p {
   background: #111827;
   box-shadow: 0 24px 52px rgba(16, 24, 40, 0.28);
   object-fit: cover;
+}
+
+.buyer-carousel {
+  position: relative;
+  width: min(1160px, 100%);
+  margin: 0 auto 30px;
+  overflow: hidden;
+}
+
+.buyer-carousel::before,
+.buyer-carousel::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: clamp(34px, 8vw, 120px);
+  height: 100%;
+  pointer-events: none;
+}
+
+.buyer-carousel::before {
+  left: 0;
+  background: linear-gradient(90deg, #6126d9, rgba(97, 38, 217, 0));
+}
+
+.buyer-carousel::after {
+  right: 0;
+  background: linear-gradient(270deg, #6126d9, rgba(97, 38, 217, 0));
+}
+
+.buyer-carousel-track {
+  display: flex;
+  width: max-content;
+  gap: clamp(14px, 2vw, 22px);
+  padding: 8px 0 18px;
+  animation: buyer-carousel-scroll 42s linear infinite;
+}
+
+.buyer-carousel figure {
+  flex: 0 0 clamp(210px, 23vw, 310px);
+  margin: 0;
+  overflow: hidden;
+  border: 6px solid #fff;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 52px rgba(16, 24, 40, 0.24);
+}
+
+.buyer-carousel img {
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  object-fit: cover;
+  object-position: center;
+}
+
+@keyframes buyer-carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - clamp(7px, 1vw, 11px)));
+  }
 }
 
 .proof-grid {
