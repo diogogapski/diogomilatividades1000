@@ -397,9 +397,9 @@ p {
 
 .belief-image img {
   width: 100%;
-  aspect-ratio: 4 / 5.5;
+  aspect-ratio: 9 / 16;
   object-fit: cover;
-  object-position: center;
+  object-position: top center;
 }
 
 .method-grid article,
