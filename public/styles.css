@@ -310,16 +310,98 @@ p {
   text-align: center;
 }
 
-.pain-section {
-  background: var(--paper);
+.belief-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 18%, #78c800 0 9px, transparent 10px),
+    radial-gradient(circle at 84% 30%, #00b8b8 0 10px, transparent 11px),
+    radial-gradient(circle at 10% 82%, #ffbf00 0 12px, transparent 13px),
+    #fff;
 }
 
-.pain-list {
+.belief-section::before,
+.belief-section::after {
+  content: "";
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  opacity: 0.9;
+  background: url("assets/order-bumps/producao-texto.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.belief-section::before {
+  left: -24px;
+  top: 70px;
+  transform: rotate(-22deg);
+}
+
+.belief-section::after {
+  right: 9%;
+  bottom: 88px;
+  transform: rotate(18deg);
+}
+
+.belief-layout {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+  gap: clamp(28px, 6vw, 88px);
+  align-items: center;
 }
 
-.pain-list article,
+.belief-copy {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.belief-copy h2 {
+  color: #2f4665;
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+}
+
+.belief-copy p {
+  margin: 24px 0 0;
+  color: #2f4665;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.belief-button {
+  width: min(580px, 100%);
+  margin-top: 34px;
+  background: #86c70e;
+  box-shadow: 0 16px 34px rgba(83, 139, 0, 0.26);
+}
+
+.belief-button:hover {
+  background: #76b306;
+}
+
+.belief-security {
+  width: min(360px, 100%);
+  margin: 18px auto 0;
+}
+
+.belief-image {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 92px;
+  background: #fff;
+  box-shadow: 0 24px 56px rgba(35, 48, 65, 0.14);
+}
+
+.belief-image img {
+  width: 100%;
+  aspect-ratio: 4 / 5.5;
+  object-fit: cover;
+  object-position: center;
+}
+
 .method-grid article,
 .bonus-grid article,
 .price-card,
@@ -328,22 +410,6 @@ p {
   border-radius: var(--radius);
   background: #fff;
   box-shadow: 0 14px 34px rgba(35, 48, 65, 0.08);
-}
-
-.pain-list article {
-  padding: 22px;
-  border-left: 8px solid var(--coral);
-}
-
-.pain-list strong {
-  display: block;
-  font-size: 1.1rem;
-  margin-bottom: 6px;
-}
-
-.pain-list p {
-  margin: 0;
-  color: var(--muted);
 }
 
 .audience-section {
@@ -1587,9 +1653,20 @@ p {
   .two-column,
   .image-column,
   .reverse,
+  .belief-layout,
   .offer-box,
   .guarantee-box {
     grid-template-columns: 1fr;
+  }
+
+  .belief-copy {
+    max-width: 720px;
+  }
+
+  .belief-image {
+    width: min(420px, 100%);
+    margin: 0 auto;
+    border-radius: 72px;
   }
 
   .method-grid,
@@ -1690,6 +1767,25 @@ p {
 
   .section {
     padding: 62px 0;
+  }
+
+  .belief-section::before,
+  .belief-section::after {
+    width: 54px;
+    height: 54px;
+  }
+
+  .belief-copy p {
+    margin-top: 18px;
+  }
+
+  .belief-button {
+    width: 100%;
+    min-height: 58px;
+  }
+
+  .belief-image {
+    border-radius: 44px;
   }
 
   .method-grid,
