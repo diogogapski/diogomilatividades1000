@@ -18,13 +18,11 @@ Abra:
 
 Por padrão o checkout roda em `AMPLO_MODE=mock`, gerando um Pix simulado para testes.
 
-Para pagamento real, configure as variáveis de ambiente:
+Para pagamento real com Paradise Pags, configure as variáveis de ambiente:
 
-- `AMPLO_MODE=live`
-- `AMPLO_PUBLIC_KEY`
-- `AMPLO_SECRET_KEY`
-- `AMPLO_API_URL` (`https://app.amplopay.com/api/v1`)
-- `AMPLO_PAYMENT_PATH`
+- `PARADISE_API_KEY`
+- `PARADISE_API_URL=https://multi.paradisepags.com`
+- `PARADISE_TRANSACTION_PATH=/api/v1/transaction.php`
 - `POSTBACK_URL`, se necessário
 
 O produto está configurado em `data/settings.json` com preço de `R$17,90`.
@@ -40,11 +38,9 @@ O projeto está pronto para Vercel com:
 No painel da Vercel, configure estas Environment Variables em Production:
 
 - `ADMIN_PASSWORD`
-- `AMPLO_MODE=live`
-- `AMPLO_PUBLIC_KEY`
-- `AMPLO_SECRET_KEY`
-- `AMPLO_API_URL=https://app.amplopay.com/api/v1`
-- `AMPLO_PAYMENT_PATH=/gateway/pix/deposit`
+- `PARADISE_API_KEY`
+- `PARADISE_API_URL=https://multi.paradisepags.com`
+- `PARADISE_TRANSACTION_PATH=/api/v1/transaction.php`
 - `POSTBACK_URL`, se necessário
 
 Depois de alterar variáveis de ambiente na Vercel, faça um novo deploy de produção.

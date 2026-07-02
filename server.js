@@ -51,6 +51,9 @@ const envConfig = {
   amploSecretKey: process.env.AMPLO_SECRET_KEY || "",
   amploApiUrl: process.env.AMPLO_API_URL || "https://app.amplopay.com/api/v1",
   amploPaymentPath: process.env.AMPLO_PAYMENT_PATH || "/gateway/pix/deposit",
+  paradiseApiKey: process.env.PARADISE_API_KEY || "",
+  paradiseApiUrl: process.env.PARADISE_API_URL || "https://multi.paradisepags.com",
+  paradiseTransactionPath: process.env.PARADISE_TRANSACTION_PATH || "/api/v1/transaction.php",
   postbackUrl: process.env.POSTBACK_URL || ""
 };
 
@@ -82,11 +85,11 @@ const defaultSettings = {
     price: 17.9
   },
   payments: {
-    mode: envConfig.amploMode,
+    mode: envConfig.paradiseApiKey ? "live" : envConfig.amploMode,
     publicKey: envConfig.amploPublicKey,
-    secretKey: envConfig.amploSecretKey,
-    apiUrl: envConfig.amploApiUrl,
-    paymentPath: envConfig.amploPaymentPath,
+    secretKey: envConfig.paradiseApiKey || envConfig.amploSecretKey,
+    apiUrl: envConfig.paradiseApiKey ? envConfig.paradiseApiUrl : envConfig.amploApiUrl,
+    paymentPath: envConfig.paradiseApiKey ? envConfig.paradiseTransactionPath : envConfig.amploPaymentPath,
     postbackUrl: envConfig.postbackUrl
   },
   media: {
@@ -359,9 +362,13 @@ async function readSettings() {
 
   if (envConfig.amploPublicKey) settings.payments.publicKey = envConfig.amploPublicKey;
   if (envConfig.amploSecretKey) settings.payments.secretKey = envConfig.amploSecretKey;
+  if (envConfig.paradiseApiKey) settings.payments.secretKey = envConfig.paradiseApiKey;
   if (process.env.AMPLO_MODE) settings.payments.mode = envConfig.amploMode;
+  if (envConfig.paradiseApiKey) settings.payments.mode = "live";
   if (process.env.AMPLO_API_URL) settings.payments.apiUrl = envConfig.amploApiUrl;
   if (process.env.AMPLO_PAYMENT_PATH) settings.payments.paymentPath = envConfig.amploPaymentPath;
+  if (process.env.PARADISE_API_URL) settings.payments.apiUrl = envConfig.paradiseApiUrl;
+  if (process.env.PARADISE_TRANSACTION_PATH) settings.payments.paymentPath = envConfig.paradiseTransactionPath;
   if (process.env.POSTBACK_URL) settings.payments.postbackUrl = envConfig.postbackUrl;
   return sanitizeSettings(settings, defaultSettings);
 }
@@ -389,8 +396,8 @@ function sanitizeSettings(input, previous) {
       mode: payments.mode === "live" ? "live" : "mock",
       publicKey: publicKey || previousPayments.publicKey || "",
       secretKey: secretKey || previousPayments.secretKey || "",
-      apiUrl: String(payments.apiUrl || previousPayments.apiUrl || envConfig.amploApiUrl).trim(),
-      paymentPath: String(payments.paymentPath || previousPayments.paymentPath || envConfig.amploPaymentPath).trim(),
+      apiUrl: String(payments.apiUrl || previousPayments.apiUrl || envConfig.paradiseApiUrl).trim(),
+      paymentPath: String(payments.paymentPath || previousPayments.paymentPath || envConfig.paradiseTransactionPath).trim(),
       postbackUrl: String(payments.postbackUrl || previousPayments.postbackUrl || "").trim()
     },
     media: {
@@ -876,7 +883,8 @@ async function createPayment(body, req) {
   const discountCents = couponResult.discountCents;
   const amountCents = Math.max(100, subtotalCents - discountCents);
   const amount = amountCents / 100;
-  const reference = `AMPLO-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
+  const useParadise = Boolean(process.env.PARADISE_API_KEY) || /paradisepags/i.test(payments.apiUrl || "");
+  const reference = `${useParadise ? "PARADISE" : "AMPLO"}-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
   const tracking = pickTracking(body.tracking || {});
   const generatedCustomer = await generateCustomer(body);
   const customer = {
@@ -921,14 +929,89 @@ async function createPayment(body, req) {
       amount,
       qrCode,
       qrCodeBase64: await QRCode.toDataURL(qrCode),
-      message: "Pagamento simulado criado. Configure AMPLO_MODE=live para enviar para a API."
+      message: "Pagamento simulado criado. Configure PARADISE_API_KEY para enviar para a API."
     };
     await saveOrder({ body, result, product, chosenBumps, coupon: couponResult.coupon, discountCents, amount, amountCents, reference, status: "pending" });
     return result;
   }
 
-  if (!payments.publicKey || !payments.secretKey || !payments.apiUrl) {
-    return { ok: false, error: "API da Amplo Pay nao configurada. Defina AMPLO_PUBLIC_KEY e AMPLO_SECRET_KEY." };
+  if (!payments.secretKey || !payments.apiUrl) {
+    return { ok: false, error: "API da Paradise nao configurada. Defina PARADISE_API_KEY." };
+  }
+
+  if (useParadise) {
+    const paradisePayload = {
+      amount: amountCents,
+      description: product.gatewayTitle,
+      reference,
+      postback_url: callbackUrl || `${getRequestOrigin(req)}/api/webhook`,
+      source: "api_externa",
+      customer,
+      tracking
+    };
+    const endpoint = new URL(payments.paymentPath, payments.apiUrl);
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "User-Agent": "OfertaPedagogicaCheckout/1.0 (+https://ofertapedagogica.vercel.app)",
+        "X-API-Key": payments.secretKey
+      },
+      body: JSON.stringify(paradisePayload)
+    });
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text };
+    }
+    const providerData = data.data && typeof data.data === "object" ? data.data : data;
+    const pixData = providerData.pix || data.pix || {};
+    const qrCode = providerData.qr_code || data.qr_code || pixData.code || pixData.qrCode || pixData.qr_code || "";
+    const ok = response.ok && Boolean(qrCode) && (data.status === "success" || providerData.status === "success" || response.status < 300);
+    const result = {
+      ok,
+      mode: "live",
+      status: response.status,
+      orderId: providerData.id || data.id || reference,
+      transactionId: providerData.transaction_id || data.transaction_id || providerData.id || reference,
+      amount: typeof providerData.amount === "number" ? providerData.amount / 100 : amount,
+      qrCode,
+      qrCodeBase64: providerData.qr_code_base64 || data.qr_code_base64 || pixData.base64 || pixData.qrCodeBase64 || "",
+      qrCodeImage: pixData.image || pixData.qrCodeImage || providerData.pixInformation?.image || "",
+      receiptUrl: providerData.order?.receiptUrl || "",
+      provider: data,
+      error: ok ? undefined : parseGatewayError(data, response.status, "A Paradise recusou a transação.")
+    };
+    if (!ok) {
+      console.error("Paradise recusou Pix", {
+        status: response.status,
+        endpoint: endpoint.toString(),
+        response: sanitizeGatewayLog(data),
+        payload: sanitizeGatewayLog(paradisePayload)
+      });
+    }
+    if (ok) {
+      await saveOrder({
+        body,
+        result,
+        product,
+        chosenBumps,
+        coupon: couponResult.coupon,
+        discountCents,
+        amount: result.amount,
+        amountCents: Math.round(result.amount * 100),
+        reference,
+        status: normalizeStatus(providerData.status || data.status || "pending")
+      });
+    }
+    return result;
+  }
+
+  if (!payments.publicKey) {
+    return { ok: false, error: "API da Amplo Pay nao configurada. Defina AMPLO_PUBLIC_KEY." };
   }
 
   const endpoint = new URL(payments.paymentPath, payments.apiUrl);
@@ -1294,10 +1377,8 @@ function parseGatewayError(data, status, fallback) {
 function normalizeCallbackUrl(value, req) {
   const raw = String(value || "").trim();
   if (!raw) {
-    const host = String(req?.headers?.["x-forwarded-host"] || req?.headers?.host || "").trim();
-    if (!host) return "";
-    const protocol = String(req?.headers?.["x-forwarded-proto"] || "https").split(",")[0].trim() || "https";
-    return `${protocol}://${host}/api/webhook`;
+    const origin = getRequestOrigin(req);
+    return origin ? `${origin}/api/webhook` : "";
   }
   try {
     const url = new URL(raw);
@@ -1306,6 +1387,13 @@ function normalizeCallbackUrl(value, req) {
   } catch {
     return "";
   }
+}
+
+function getRequestOrigin(req) {
+  const host = String(req?.headers?.["x-forwarded-host"] || req?.headers?.host || "").trim();
+  if (!host) return "";
+  const protocol = String(req?.headers?.["x-forwarded-proto"] || "https").split(",")[0].trim() || "https";
+  return `${protocol}://${host}`;
 }
 
 function normalizeCouponCode(value) {
