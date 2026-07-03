@@ -869,7 +869,7 @@ function readJson(req) {
 
 async function createPayment(body, req) {
   const settings = await readSettings();
-  const product = settings.product;
+  const product = resolveCheckoutProduct(settings.product, body.plan);
   const payments = settings.payments;
   const bumps = (await readBumps()).filter((b) => b.enabled);
   const coupons = await readCoupons();
@@ -1076,6 +1076,18 @@ async function createPayment(body, req) {
     });
   }
   return result;
+}
+
+function resolveCheckoutProduct(product, plan) {
+  if (String(plan || "").trim().toLowerCase() !== "premium") return product;
+  return {
+    ...product,
+    id: "pacote-premium-alfabetizacao-reforco",
+    title: "Pacote Premium de Alfabetização + Reforço Avançado",
+    gatewayTitle: "Pacote Premium 1000 Atividades + Reforco",
+    subtitle: "Tudo do pacote principal + atividades extras, jogos recortáveis e roteiro semanal.",
+    price: 27.9
+  };
 }
 
 function buildGatewayProducts(product, bumps, discountCents) {

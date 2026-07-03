@@ -1,7 +1,27 @@
 const money = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+const checkoutParams = new URLSearchParams(window.location.search);
+const selectedPlan = checkoutParams.get("plan") === "premium" ? "premium" : "base";
+const plans = {
+  base: {
+    id: "base",
+    title: "1000 Atividades de Leitura e Ortografia - BNCC",
+    subtitle: "Pacote digital para imprimir, com gabarito completo, bônus inclusos e garantia de 7 dias.",
+    price: 17.9,
+    checkoutTitle: "Falta só seu e-mail para liberar as 1000 atividades",
+    hint: "Ao gerar o Pix, seu acesso fica reservado por alguns minutos com o valor de R$17,90."
+  },
+  premium: {
+    id: "premium",
+    title: "Pacote Premium de Alfabetização + Reforço Avançado",
+    subtitle: "Inclui tudo do pacote principal, atividades extras, trilha por nível, jogos recortáveis e roteiro semanal.",
+    price: 27.9,
+    checkoutTitle: "Falta só seu e-mail para liberar o pacote premium",
+    hint: "Ao gerar o Pix, seu pacote premium fica reservado por alguns minutos com o valor de R$27,90."
+  }
+};
 
 const state = {
-  product: { price: 17.9 },
+  product: { ...plans[selectedPlan] },
   bumps: [],
   selected: new Set()
 };
@@ -11,10 +31,13 @@ const productTitle = document.querySelector("#productTitle");
 const productSubtitle = document.querySelector("#productSubtitle");
 const basePrice = document.querySelector("#basePrice");
 const totalPrice = document.querySelector("#totalPrice");
+const checkoutIncludes = document.querySelector(".checkout-includes");
 const payButton = document.querySelector("#payButton");
 const resultEl = document.querySelector("#result");
 const statusEl = document.querySelector("#status");
 const resultTitle = document.querySelector("#resultTitle");
+const checkoutTitle = document.querySelector("#checkoutTitle");
+const paymentHint = document.querySelector(".payment-hint");
 const qrImage = document.querySelector("#qrImage");
 const pixCodeLabel = document.querySelector("#pixCodeLabel");
 const pixCode = document.querySelector("#pixCode");
@@ -31,11 +54,17 @@ async function init() {
   try {
     const response = await fetch("/api/config", { cache: "no-store" });
     const data = await response.json();
-    state.product = data.product;
-    state.bumps = data.bumps || [];
+    state.product = {
+      ...data.product,
+      ...plans[selectedPlan]
+    };
+    state.bumps = selectedPlan === "premium" ? [] : data.bumps || [];
     document.title = `Checkout - ${state.product.title}`;
     productTitle.textContent = state.product.title;
-    productSubtitle.textContent = "Pacote digital para imprimir, com gabarito completo, bônus inclusos e garantia de 7 dias.";
+    productSubtitle.textContent = state.product.subtitle;
+    if (checkoutTitle) checkoutTitle.textContent = state.product.checkoutTitle;
+    if (paymentHint) paymentHint.textContent = state.product.hint;
+    renderCheckoutIncludes();
     basePrice.textContent = money.format(state.product.price);
     renderBumps();
     updateTotal();
@@ -51,6 +80,16 @@ async function init() {
     statusEl.textContent = "Checkout indisponível. Recarregue a página e tente novamente.";
     payButton.disabled = true;
   }
+}
+
+function renderCheckoutIncludes() {
+  if (!checkoutIncludes || selectedPlan !== "premium") return;
+  checkoutIncludes.innerHTML = `
+    <span>1000 atividades prontas</span>
+    <span>+300 atividades extras</span>
+    <span>Jogos silábicos recortáveis</span>
+    <span>Roteiro semanal de 30 dias</span>
+  `;
 }
 
 function renderBumps() {
@@ -125,7 +164,8 @@ form.addEventListener("submit", async (event) => {
   const data = Object.fromEntries(new FormData(form).entries());
   Object.assign(data, generateBackendCustomer());
   data.bumpIds = Array.from(state.selected);
-  data.tracking = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+  data.plan = selectedPlan;
+  data.tracking = Object.fromEntries(checkoutParams.entries());
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 22000);

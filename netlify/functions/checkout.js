@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const product = {
+const baseProduct = {
   id: "1000-atividades-leitura-ortografia-bncc",
   title: "1000 Atividades de Leitura e Ortografia - BNCC",
   gatewayTitle: "1000 Atividades BNCC",
@@ -19,6 +19,7 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json({ error: "Metodo nao permitido." }, 405);
 
   const body = parseJson(event.body || "{}");
+  const product = resolveProduct(body.plan);
   const selected = new Set(Array.isArray(body.bumpIds) ? body.bumpIds : []);
   const chosenBumps = bumps.filter((bump) => selected.has(bump.id));
   const amount = Number((product.price + chosenBumps.reduce((sum, bump) => sum + bump.price, 0)).toFixed(2));
@@ -89,6 +90,16 @@ exports.handler = async (event) => {
 
   return json(result, result.ok ? 200 : 502);
 };
+
+function resolveProduct(plan) {
+  if (String(plan || "").trim().toLowerCase() !== "premium") return baseProduct;
+  return {
+    id: "pacote-premium-alfabetizacao-reforco",
+    title: "Pacote Premium de Alfabetizacao + Reforco Avancado",
+    gatewayTitle: "Pacote Premium 1000 Atividades + Reforco",
+    price: 27.9
+  };
+}
 
 function getOrigin(event) {
   const proto = event.headers["x-forwarded-proto"] || "https";
